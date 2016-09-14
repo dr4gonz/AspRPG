@@ -33,6 +33,15 @@ namespace AspRPG.Controllers
             _db.SaveChanges();
             return RedirectToAction("Details", "Maps", new { id = newLocation.MapId });
         }
+        [HttpPost]
+        public IActionResult CreateRoom(Location location)
+        {
+            var foundLocation = _db.Locations.FirstOrDefault(l => location.Id == l.Id);
+            foundLocation.HasRoom = true;
+            _db.SaveChanges();
+            return RedirectToAction("Details", "Maps", new { id = foundLocation.MapId });
+
+        }
 
     }
 }

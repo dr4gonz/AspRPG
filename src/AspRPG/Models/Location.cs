@@ -14,19 +14,24 @@ namespace AspRPG.Models
         public int Id { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
-        public int RoomNId { get; set; }
-        public int RoomEId { get; set; }
-        public int RoomSId { get; set; }
-        public int RoomWId { get; set; }
+        public bool HasRoom { get; set; }
+        public bool WestDoor { get; set; }
+        public bool EastDoor { get; set; }
+        public bool NorthDoor { get; set; }
+        public bool SouthDoor { get; set; }
         public bool IsOccupied { get; set; }
         public bool Visited { get; set; }
         public int MapId { get; set; }
         public virtual Map Map { get; set; }
 
         public Location() { }
-        public Location(int mapId)
+        public Location(int mapId, int x, int y)
         {
             MapId = mapId;
+            X = x;
+            Y = y;
+            IsOccupied = false;
+            HasRoom = false;
         }
     }
 }

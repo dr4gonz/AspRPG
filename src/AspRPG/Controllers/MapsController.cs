@@ -12,17 +12,17 @@ namespace AspRPG.Controllers
 {
     public class MapsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _db;
 
         public MapsController(ApplicationDbContext context)
         {
-            _context = context;    
+            _db = context;    
         }
 
         // GET: Maps
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Map.ToListAsync());
+            return View(await _db.Map.ToListAsync());
         }
 
         // GET: Maps/Details/5
@@ -33,7 +33,7 @@ namespace AspRPG.Controllers
                 return NotFound();
             }
 
-            var map = await _context.Map
+            var map = await _db.Map
                 .Include(m => m.Locations)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (map == null)
@@ -51,16 +51,22 @@ namespace AspRPG.Controllers
         }
 
         // POST: Maps/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id")] Map map)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(map);
-                await _context.SaveChangesAsync();
+                _db.Add(map);
+                for (int x = 0; x < 10; x++)
+                {
+                    for (int y = 0; y < 10; y++)
+                    {
+                        Location location = new Location(map.Id, x, y);
+                        _db.Locations.Add(location);
+                    }
+                }
+                await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(map);
@@ -74,7 +80,7 @@ namespace AspRPG.Controllers
                 return NotFound();
             }
 
-            var map = await _context.Map.SingleOrDefaultAsync(m => m.Id == id);
+            var map = await _db.Map.SingleOrDefaultAsync(m => m.Id == id);
             if (map == null)
             {
                 return NotFound();
@@ -98,8 +104,8 @@ namespace AspRPG.Controllers
             {
                 try
                 {
-                    _context.Update(map);
-                    await _context.SaveChangesAsync();
+                    _db.Update(map);
+                    await _db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,7 +131,7 @@ namespace AspRPG.Controllers
                 return NotFound();
             }
 
-            var map = await _context.Map.SingleOrDefaultAsync(m => m.Id == id);
+            var map = await _db.Map.SingleOrDefaultAsync(m => m.Id == id);
             if (map == null)
             {
                 return NotFound();
@@ -139,15 +145,15 @@ namespace AspRPG.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var map = await _context.Map.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Map.Remove(map);
-            await _context.SaveChangesAsync();
+            var map = await _db.Map.SingleOrDefaultAsync(m => m.Id == id);
+            _db.Map.Remove(map);
+            await _db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
         private bool MapExists(int id)
         {
-            return _context.Map.Any(e => e.Id == id);
+            return _db.Map.Any(e => e.Id == id);
         }
     }
 }
