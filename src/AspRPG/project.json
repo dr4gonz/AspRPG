@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-AspRPG-80022600-5f87-4e60-a79b-c7af5461b41c",
 
   "dependencies": {
@@ -40,10 +40,11 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc":  {
+    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "Microsoft.EntityFrameworkCore.Relational": "1.0.0"
   },
 
   "tools": {

@@ -22,7 +22,7 @@ namespace AspRPG.Controllers
         // GET: Maps
         public async Task<IActionResult> Index()
         {
-            return View(await _db.Map.ToListAsync());
+            return View(await _db.Maps.ToListAsync());
         }
 
         // GET: Maps/Details/5
@@ -33,7 +33,7 @@ namespace AspRPG.Controllers
                 return NotFound();
             }
 
-            var map = await _db.Map
+            var map = await _db.Maps
                 .Include(m => m.Locations)
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (map == null)
@@ -80,7 +80,7 @@ namespace AspRPG.Controllers
                 return NotFound();
             }
 
-            var map = await _db.Map.SingleOrDefaultAsync(m => m.Id == id);
+            var map = await _db.Maps.SingleOrDefaultAsync(m => m.Id == id);
             if (map == null)
             {
                 return NotFound();
@@ -131,7 +131,7 @@ namespace AspRPG.Controllers
                 return NotFound();
             }
 
-            var map = await _db.Map.SingleOrDefaultAsync(m => m.Id == id);
+            var map = await _db.Maps.SingleOrDefaultAsync(m => m.Id == id);
             if (map == null)
             {
                 return NotFound();
@@ -145,15 +145,15 @@ namespace AspRPG.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var map = await _db.Map.SingleOrDefaultAsync(m => m.Id == id);
-            _db.Map.Remove(map);
+            var map = await _db.Maps.SingleOrDefaultAsync(m => m.Id == id);
+            _db.Maps.Remove(map);
             await _db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
         private bool MapExists(int id)
         {
-            return _db.Map.Any(e => e.Id == id);
+            return _db.Maps.Any(e => e.Id == id);
         }
     }
 }

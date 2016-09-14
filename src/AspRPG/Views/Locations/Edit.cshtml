@@ -1,0 +1,40 @@
+﻿@model AspRPG.Models.Location
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create New Room</h2>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Map</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.MapId)
+                <label for="WestDoor">West Door</label>
+                <input type="checkbox" value="On" name="WestDoor" id="WestDoor" />
+                <label for="EastDoor">East Door</label>
+                <input type="checkbox" value="On" name="EastDoor" id="EastDoor" />
+                <label for="NorthDoor">North Door</label>
+                <input type="checkbox" value="On" name="NorthDoor" id="NorthDoor" />
+                <label for="SouthDoor">South Door</label>
+                <input type="checkbox" value="On" name="SouthDoor" id="SouthDoor" />
+              
+                <input type="submit" value="Edit" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -14,13 +14,14 @@
     <dl class="dl-horizontal">
     </dl>
     <div class="map-container">
-        @foreach(var location in Model.Locations)
+        @foreach(var location in Model.Locations.OrderBy(loc => loc.X).OrderBy(loc => loc.Y))
         {
             <div class="location-container">
                 <div class="location-content">
+                    <p>x: @location.X | y: @location.Y</p>
                     @if (location.HasRoom)
                     {
-                        <p>Room occupied.</p>
+                        @Html.ActionLink("Edit", "Edit","Locations", new { id = location.Id})
                     }
                     else
                     {
