@@ -55,53 +55,55 @@ namespace AspRPG.Controllers
             var location = _db.Locations.SingleOrDefault(l => l.Id == int.Parse(Request.Form["Id"]));
             if (Request.Form["WestDoor"] == "On")
             {
-                location.WestDoor = true;
-                var westLocation = _db.Locations
-                    .Where(l => l.X == (location.X + 1))
-                    .Where(l => l.Y == location.Y)
-                    .FirstOrDefault(l => l.MapId == location.MapId);
-                _db.Entry(westLocation).State = EntityState.Modified;
-                westLocation.HasRoom = true;
-                westLocation.EastDoor = true;
-                _db.SaveChanges();
+                ChangeDoors(location, -1, 0);
+
             }
             if (Request.Form["EastDoor"] == "On")
             {
-                location.EastDoor = true;
-                var eastLocation = _db.Locations
-                    .Where(l => l.X == (location.X - 1))
-                    .Where(l => l.Y == location.Y)
-                    .FirstOrDefault(l => l.MapId == location.MapId);
-                _db.Entry(eastLocation).State = EntityState.Modified;
-                eastLocation.HasRoom = true;
-                eastLocation.WestDoor = true;
-                _db.SaveChanges();
+                ChangeDoors(location, 1, 0);
+
             }
             if (Request.Form["NorthDoor"] == "On")
             {
-                location.NorthDoor = true;
-                var northLocation = _db.Locations
-                    .Where(l => l.X == location.X)
-                    .Where(l => l.Y == (location.Y + 1))
-                    .FirstOrDefault(l => l.MapId == location.MapId);
-                _db.Entry(northLocation).State = EntityState.Modified;
-                northLocation.HasRoom = true;
-                northLocation.SouthDoor = true;
-                _db.SaveChanges();
+                ChangeDoors(location, 0, -1);
+
             }
             if (Request.Form["SouthDoor"] == "On")
             {
-                location.SouthDoor = true;
-                var southLocation = _db.Locations
-                    .Where(l => l.X == location.X)
-                    .Where(l => l.Y == (location.Y -1))
-                    .FirstOrDefault(l => l.MapId == location.MapId);
-                _db.Entry(southLocation).State = EntityState.Modified;
-                southLocation.HasRoom = true;
-                southLocation.NorthDoor = true;
-                _db.SaveChanges();
+                ChangeDoors(location, 0, 1);
             }
             return RedirectToAction("Details", "Maps", new { id = location.MapId });
+        }
+
+        private void ChangeDoors(Location location, int xMod, int yMod)
+        {
+            var adjoiningLocation = _db.Locations
+                .Where(l => l.X == (location.X + xMod))
+                .Where(l => l.Y == (location.Y + yMod))
+                .FirstOrDefault(l => l.MapId == location.MapId);
+            adjoiningLocation.HasRoom = true;
+            if (xMod == 1)
+            {
+                adjoiningLocation.WestDoor = true;
+                location.EastDoor = true;
+            }
+            else if (xMod == -1)
+            {
+                adjoiningLocation.EastDoor = true;
+                location.WestDoor = true;
+            }
+            else if (yMod == 1)
+            {
+                adjoiningLocation.SouthDoor = true;
+                location.NorthDoor = true;
+            }
+            else if (yMod == -1)
+            {
+                adjoiningLocation.NorthDoor = true;
+                location.SouthDoor = true;
+            }
+            _db.Entry(adjoiningLocation).State = EntityState.Modified;
+            _db.SaveChanges();
         }
 
     }
