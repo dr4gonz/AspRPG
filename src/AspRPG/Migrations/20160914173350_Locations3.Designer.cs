@@ -8,9 +8,10 @@ using AspRPG.Data;
 namespace AspRPG.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160914173350_Locations3")]
+    partial class Locations3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
@@ -72,8 +73,6 @@ namespace AspRPG.Migrations
 
                     b.Property<bool>("IsOccupied");
 
-                    b.Property<int>("MapId");
-
                     b.Property<int>("RoomEId");
 
                     b.Property<int>("RoomNId");
@@ -90,19 +89,7 @@ namespace AspRPG.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MapId");
-
                     b.ToTable("Locations");
-                });
-
-            modelBuilder.Entity("AspRPG.Models.Map", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Maps");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -210,14 +197,6 @@ namespace AspRPG.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("AspRPG.Models.Location", b =>
-                {
-                    b.HasOne("AspRPG.Models.Map", "Map")
-                        .WithMany("Locations")
-                        .HasForeignKey("MapId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

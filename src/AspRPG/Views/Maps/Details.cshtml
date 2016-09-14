@@ -1,0 +1,42 @@
+@model AspRPG.Models.Map
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Map</h4>
+    <a asp-action="Create" asp-controller="Locations" asp-route-id="@Model.Id">Create New Room</a>
+    <hr />
+    <dl class="dl-horizontal">
+    </dl>
+    <ul>
+
+        @for(int x = 0; x < 10; x++)
+        {
+            @for (int y = 0; y < 10; y++)
+            {
+                <div class="room">
+                    @foreach (var room in Model.Locations)
+                    {
+                        @if (room.X == x && room.Y == y)
+                        {
+                            <p>Room here!@room.X / @room.Y</p>
+
+                        }
+
+                    }
+                </div>
+
+            }
+
+        }
+    </ul>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

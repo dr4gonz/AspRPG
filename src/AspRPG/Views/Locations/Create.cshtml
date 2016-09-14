@@ -1,0 +1,35 @@
+﻿@model AspRPG.Models.Location
+
+    @{
+        ViewData["Title"] = "Create";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <h2>Create New Room</h2>
+
+    <form asp-action="Create">
+        <div class="form-horizontal">
+            <h4>Map</h4>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="hidden" name="MapId" id="MapId" value="@ViewBag.MapId" />
+                    <label for="X">X Coordinates</label>
+                    @Html.TextBoxFor(model => model.X)
+                    <label for="Y">Y Coordinates</label>
+                    @Html.TextBoxFor(model => model.Y)
+
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

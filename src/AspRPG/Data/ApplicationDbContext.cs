@@ -19,5 +19,7 @@ namespace AspRPG.Data
         {
             base.OnModelCreating(builder);
         }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Map> Map { get; set; }
     }
 }
