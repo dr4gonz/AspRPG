@@ -45,7 +45,9 @@ namespace AspRPG.Controllers
         }
         public IActionResult Edit(int id)
         {
-            var location = _db.Locations.SingleOrDefault(l => l.Id == id);
+            var location = _db.Locations
+                .Include(l => l.Monsters)
+                .SingleOrDefault(l => l.Id == id);
             return View(location);
         }
         [HttpPost]

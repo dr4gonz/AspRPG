@@ -47,6 +47,14 @@
     </div>
 </form>
 
+<ul>Monsters: 
+    @foreach (var monster in Model.Monsters)
+    {
+        <li>@monster.Description | @Html.ActionLink("Edit","Edit","Monster", new { id = @monster.Id })</li>
+    }
+
+    </ul>
+
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

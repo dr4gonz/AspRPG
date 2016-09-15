@@ -1,0 +1,22 @@
+﻿@model AspRPG.Models.Monster
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form asp-action="AddWeapon">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="hidden" value="@Model.LocationId" name="LocationId" id="LocationId" />
+                <input type="hidden" value="@Model.Id" name="MonsterId" id="MonsterId" />
+                <label for="Description">Description</label>
+                <input type="text" name="Description" id="Description" />
+                <label for="DmgMod">Damage Mod</label>
+                <input type="number" name="DmgMod" id="DmgMod" max="5" min="1" />
+                <input type="submit" value="Add Weapon" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
