@@ -23,6 +23,7 @@ namespace AspRPG.Models
         public bool Visited { get; set; }
         public int MapId { get; set; }
         public virtual Map Map { get; set; }
+        public virtual ICollection<Monster> Monsters { get; set; }
 
         public Location() { }
         public Location(int mapId, int x, int y)

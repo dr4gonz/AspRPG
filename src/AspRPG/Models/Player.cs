@@ -16,12 +16,9 @@ namespace AspRPG.Models
         public int? CurrentRoomId { get; set; }
         public Location CurrentRoom { get; set; }
         public virtual ApplicationUser User { get; set; }
+        public int Hp { get; set; }
+        public int DmgMod { get; set; }
 
         public Player() { }
-        public Player(string name, ApplicationUser user)
-        {
-            Name = name;
-            User = user;
-        }
     }
 }

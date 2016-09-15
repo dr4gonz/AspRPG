@@ -6,43 +6,64 @@
 
 @Model.Name
 <br />
-Current Room id: @Model.CurrentRoomId | x: @Model.CurrentRoom.X | y: @Model.CurrentRoom.Y
-@if (Model.CurrentRoom.EastDoor){
-    @using (Html.BeginForm("MoveEast", "Game"))
-    {
-        @Html.HiddenFor(p => Model.Id)
-        @Html.HiddenFor(r => Model.CurrentRoomId)
-        @Html.HiddenFor(p => Model.Name)
-        <input type="submit" value="Go East" />
-    }
-}
-@if (Model.CurrentRoom.WestDoor)
+Current Room id: @Model.CurrentRoomId | x: @Model.CurrentRoom.X | y: @Model.CurrentRoom.Y | Current Hp: @Model.Hp
+@if (Model.CurrentRoom.Monsters.Count > 0)
 {
-    @using (Html.BeginForm("MoveWest", "Game"))
-    {
-        @Html.HiddenFor(p => Model.Id)
-        @Html.HiddenFor(r => Model.CurrentRoomId)
-        @Html.HiddenFor(p => Model.Name)
-        <input type="submit" value="Go West" />
-    }
+    <ul>
+        @foreach (var monster in Model.CurrentRoom.Monsters)
+        {
+            <li>
+                A @monster.Description Attacks! HP: @monster.Hp
+                @using (Html.BeginForm("Fight", "Game"))
+                {
+                    <input type="hidden" value="@Model.Id" name="PlayerId" id="PlayerId" />
+                    <input type="hidden" value="@monster.Id" name="MonsterId" id="MonsterId" />
+                    <input type="submit" value="Fight!" />
+                }
+            </li>
+        }
+    </ul>
 }
-@if (Model.CurrentRoom.NorthDoor)
+else
 {
-    @using (Html.BeginForm("MoveNorth", "Game"))
+    @if (Model.CurrentRoom.EastDoor)
     {
-        @Html.HiddenFor(p => Model.Id)
-        @Html.HiddenFor(r => Model.CurrentRoomId)
-        @Html.HiddenFor(p => Model.Name)
-        <input type="submit" value="Go North" />
+        @using (Html.BeginForm("MoveEast", "Game", new { id = Model.Id }))
+        {
+            @Html.HiddenFor(p => Model.Id)
+            @Html.HiddenFor(r => Model.CurrentRoomId)
+            @Html.HiddenFor(p => Model.Name)
+            <input type="submit" value="Go East" />
+        }
     }
-}
-@if (Model.CurrentRoom.SouthDoor)
-{
-    @using (Html.BeginForm("MoveSouth", "Game"))
+    @if (Model.CurrentRoom.WestDoor)
     {
-        @Html.HiddenFor(p => Model.Id)
-        @Html.HiddenFor(r => Model.CurrentRoomId)
-        @Html.HiddenFor(p => Model.Name)
-        <input type="submit" value="Go South" />
+        @using (Html.BeginForm("MoveWest", "Game", new { id = Model.Id }))
+        {
+            @Html.HiddenFor(p => Model.Id)
+            @Html.HiddenFor(r => Model.CurrentRoomId)
+            @Html.HiddenFor(p => Model.Name)
+            <input type="submit" value="Go West" />
+        }
+    }
+    @if (Model.CurrentRoom.NorthDoor)
+    {
+        @using (Html.BeginForm("MoveNorth", "Game", new { id = Model.Id }))
+        {
+            @Html.HiddenFor(p => Model.Id)
+            @Html.HiddenFor(r => Model.CurrentRoomId)
+            @Html.HiddenFor(p => Model.Name)
+            <input type="submit" value="Go North" />
+        }
+    }
+    @if (Model.CurrentRoom.SouthDoor)
+    {
+        @using (Html.BeginForm("MoveSouth", "Game", new { id = Model.Id }))
+        {
+            @Html.HiddenFor(p => Model.Id)
+            @Html.HiddenFor(r => Model.CurrentRoomId)
+            @Html.HiddenFor(p => Model.Name)
+            <input type="submit" value="Go South" />
+        }
     }
 }

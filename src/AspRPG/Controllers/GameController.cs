@@ -1,5 +1,6 @@
 ﻿using AspRPG.Data;
 using AspRPG.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,33 +24,34 @@ namespace AspRPG.Controllers
         public IActionResult Index(int id)
         {
             var player = _db.Players
-                .Include(p => p.CurrentRoom)
+                .Include(p => p.CurrentRoom).ThenInclude(cr => cr.Monsters)
                 .FirstOrDefault(p => p.Id == id);
 
             return View(player);
         }
-        public IActionResult MoveEast(Player player)
+        public IActionResult MoveEast(int id)
         {
-            MovePlayer(player, 1, 0);
-            return RedirectToAction("Index", "Game", new { id = player.Id });
+            MovePlayer(id, 1, 0);
+            return RedirectToAction("Index", "Game", new { id = id });
         }
-        public IActionResult MoveWest(Player player)
+        public IActionResult MoveWest(int id)
         {
-            MovePlayer(player, -1, 0);
-            return RedirectToAction("Index", "Game", new { id = player.Id });
+            MovePlayer(id, -1, 0);
+            return RedirectToAction("Index", "Game", new { id = id });
         }
-        public IActionResult MoveNorth(Player player)
+        public IActionResult MoveNorth(int id)
         {
-            MovePlayer(player, 0, -1);
-            return RedirectToAction("Index", "Game", new { id = player.Id });
+            MovePlayer(id, 0, -1);
+            return RedirectToAction("Index", "Game", new { id = id });
         }
-        public IActionResult MoveSouth(Player player)
+        public IActionResult MoveSouth(int id)
         {
-            MovePlayer(player, 0, 1);
-            return RedirectToAction("Index", "Game", new { id = player.Id });
+            MovePlayer(id, 0, 1);
+            return RedirectToAction("Index", "Game", new { id = id });
         }
-        private void MovePlayer(Player player, int xMod, int yMod)
+        private void MovePlayer(int id, int xMod, int yMod)
         {
+            var player = _db.Players.FirstOrDefault(p => p.Id == id);
             var currentRoom = _db.Locations.FirstOrDefault(l => l.Id == player.CurrentRoomId);
             var adjoiningLocation = _db.Locations
                 .Where(l => l.X == (currentRoom.X + xMod))
@@ -58,6 +60,22 @@ namespace AspRPG.Controllers
             player.CurrentRoomId = adjoiningLocation.Id;
             _db.Entry(player).State = EntityState.Modified;
             _db.SaveChanges();
+        }
+        [HttpPost]
+        public IActionResult Fight(FormCollection collection)
+        {
+            var player = _db.Players.FirstOrDefault(p => p.Id == int.Parse(Request.Form["PlayerId"]));
+            var monster = _db.Monsters.FirstOrDefault(m => m.Id == int.Parse(Request.Form["MonsterId"]));
+            player.Hp -= monster.DmgMod;
+            monster.Hp -= player.DmgMod;
+            _db.Entry(player).State = EntityState.Modified;
+            _db.Entry(monster).State = EntityState.Modified;
+            if (monster.Hp < 1)
+            {
+                _db.Monsters.Remove(monster);
+            }
+            _db.SaveChanges();
+            return RedirectToAction("Index", "Game", new { id = player.Id });
         }
     }
 }

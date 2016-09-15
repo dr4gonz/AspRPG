@@ -104,6 +104,13 @@ namespace AspRPG.Controllers
             _db.Entry(adjoiningLocation).State = EntityState.Modified;
             _db.SaveChanges();
         }
-
+        [HttpPost]
+        public IActionResult AddMonster(FormCollection collection)
+        {
+            var newMonster = new Monster(int.Parse(Request.Form["LocationId"]), Request.Form["Description"]);
+            _db.Monsters.Add(newMonster);
+            _db.SaveChanges();
+            return RedirectToAction("Details", "Maps", new { id = int.Parse(Request.Form["MapId"]) });
+        }
     }
 }

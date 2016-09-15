@@ -65,28 +65,6 @@ namespace AspRPG.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("AspRPG.Models.Game", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("CurrentRoomId");
-
-                    b.Property<int>("MapId");
-
-                    b.Property<int>("PlayerId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CurrentRoomId");
-
-                    b.HasIndex("MapId");
-
-                    b.HasIndex("PlayerId");
-
-                    b.ToTable("Games");
-                });
-
             modelBuilder.Entity("AspRPG.Models.Location", b =>
                 {
                     b.Property<int>("Id")
@@ -131,12 +109,36 @@ namespace AspRPG.Migrations
                     b.ToTable("Maps");
                 });
 
+            modelBuilder.Entity("AspRPG.Models.Monster", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("DmgMod");
+
+                    b.Property<int>("Hp");
+
+                    b.Property<int>("LocationId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("Monsters");
+                });
+
             modelBuilder.Entity("AspRPG.Models.Player", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int?>("CurrentRoomId");
+
+                    b.Property<int>("DmgMod");
+
+                    b.Property<int>("Hp");
 
                     b.Property<string>("Name");
 
@@ -258,26 +260,18 @@ namespace AspRPG.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("AspRPG.Models.Game", b =>
-                {
-                    b.HasOne("AspRPG.Models.Location", "CurrentRoom")
-                        .WithMany()
-                        .HasForeignKey("CurrentRoomId");
-
-                    b.HasOne("AspRPG.Models.Map", "Map")
-                        .WithMany()
-                        .HasForeignKey("MapId");
-
-                    b.HasOne("AspRPG.Models.Player", "Player")
-                        .WithMany()
-                        .HasForeignKey("PlayerId");
-                });
-
             modelBuilder.Entity("AspRPG.Models.Location", b =>
                 {
                     b.HasOne("AspRPG.Models.Map", "Map")
                         .WithMany("Locations")
                         .HasForeignKey("MapId");
+                });
+
+            modelBuilder.Entity("AspRPG.Models.Monster", b =>
+                {
+                    b.HasOne("AspRPG.Models.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
                 });
 
             modelBuilder.Entity("AspRPG.Models.Player", b =>

@@ -177,6 +177,8 @@ namespace AspRPG.Controllers
         public IActionResult Start(Player player, FormCollection collection)
         {
             player.CurrentRoomId = int.Parse(Request.Form["CurrentRoomId"]);
+            player.Hp = 20;
+            player.DmgMod = 3;
             _db.Entry(player).State = EntityState.Modified;
             _db.SaveChanges();
 

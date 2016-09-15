@@ -8,8 +8,8 @@ using AspRPG.Data;
 namespace AspRPG.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160914233239_AddPlayerModelRelationships")]
-    partial class AddPlayerModelRelationships
+    [Migration("20160915205127_AddMonsterModel")]
+    partial class AddMonsterModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -110,24 +110,46 @@ namespace AspRPG.Migrations
                     b.ToTable("Maps");
                 });
 
+            modelBuilder.Entity("AspRPG.Models.Monster", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("DmgMod");
+
+                    b.Property<int>("Hp");
+
+                    b.Property<int>("LocationId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("Monsters");
+                });
+
             modelBuilder.Entity("AspRPG.Models.Player", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CurrentRoomId");
+                    b.Property<int?>("CurrentRoomId");
+
+                    b.Property<int>("DmgMod");
+
+                    b.Property<int>("Hp");
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("UserId");
-
-                    b.Property<string>("UserId1");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CurrentRoomId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Players");
                 });
@@ -243,57 +265,57 @@ namespace AspRPG.Migrations
                 {
                     b.HasOne("AspRPG.Models.Map", "Map")
                         .WithMany("Locations")
-                        .HasForeignKey("MapId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("MapId");
+                });
+
+            modelBuilder.Entity("AspRPG.Models.Monster", b =>
+                {
+                    b.HasOne("AspRPG.Models.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
                 });
 
             modelBuilder.Entity("AspRPG.Models.Player", b =>
                 {
                     b.HasOne("AspRPG.Models.Location", "CurrentRoom")
                         .WithMany()
-                        .HasForeignKey("CurrentRoomId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CurrentRoomId");
 
                     b.HasOne("AspRPG.Models.ApplicationUser", "User")
                         .WithMany("Players")
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
                         .WithMany("Claims")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("RoleId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
                     b.HasOne("AspRPG.Models.ApplicationUser")
                         .WithMany("Claims")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
                     b.HasOne("AspRPG.Models.ApplicationUser")
                         .WithMany("Logins")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
                         .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("RoleId");
 
                     b.HasOne("AspRPG.Models.ApplicationUser")
                         .WithMany("Roles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
         }
     }

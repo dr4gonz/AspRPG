@@ -18,14 +18,30 @@
                 @Html.HiddenFor(model => model.MapId)
                 <label for="WestDoor">West Door</label>
                 <input type="checkbox" value="On" name="WestDoor" id="WestDoor" />
+                <br />
                 <label for="EastDoor">East Door</label>
                 <input type="checkbox" value="On" name="EastDoor" id="EastDoor" />
+                <br />
                 <label for="NorthDoor">North Door</label>
                 <input type="checkbox" value="On" name="NorthDoor" id="NorthDoor" />
+                <br />
                 <label for="SouthDoor">South Door</label>
                 <input type="checkbox" value="On" name="SouthDoor" id="SouthDoor" />
               
                 <input type="submit" value="Edit" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+<form asp-action="AddMonster">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.HiddenFor(model => model.MapId)
+                <input type="hidden" value="@Model.Id" name="LocationId" id="LocationId" />
+                <label for="MonsterDescription">Description</label>
+                <input type="text" name="Description" id="Description" />
+                <input type="submit" value="Add Monster" class="btn btn-default" />
             </div>
         </div>
     </div>
