@@ -20,6 +20,7 @@ namespace AspRPG.Models
         public int DmgMod { get; set; }
         public int LocationId { get; set; }
         public virtual Location Location { get; set; }
+        public virtual Weapon Weapon { get; set; }
         public Monster() { }
         public Monster(int locationId, string description)
         {

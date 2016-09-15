@@ -16,8 +16,10 @@ namespace AspRPG.Models
         public int Id { get; set; }
         public string Description { get; set; }
         public int DmgMod { get; set; }
-        public int MonsterId { get; set; }
-        public virtual Monster monster { get; set; }
+        public int? MonsterId { get; set; }
+        public virtual Monster Monster { get; set; }
+        public int? PlayerId { get; set; }
+        public virtual Player Player { get; set; }
 
         public Weapon() { }
 

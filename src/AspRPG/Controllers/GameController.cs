@@ -64,11 +64,17 @@ namespace AspRPG.Controllers
         [HttpPost]
         public IActionResult Fight(FormCollection collection)
         {
-            var player = _db.Players.FirstOrDefault(p => p.Id == int.Parse(Request.Form["PlayerId"]));
-            var monster = _db.Monsters.FirstOrDefault(m => m.Id == int.Parse(Request.Form["MonsterId"]));
+            var player = _db.Players
+                .Include(p => p.Weapon)
+                .FirstOrDefault(p => p.Id == int.Parse(Request.Form["PlayerId"]));
+            var monster = _db.Monsters
+                .Include(m => m.Weapon)
+                .FirstOrDefault(m => m.Id == int.Parse(Request.Form["MonsterId"]));
             player.Hp -= monster.DmgMod;
+            if (player.Weapon != null)
+                monster.Hp -= player.Weapon.DmgMod;
             monster.Hp -= player.DmgMod;
-            if (player.Hp <= 0)
+            if (player.Hp < 1)
             {
                 _db.Players.Remove(player);
                 _db.SaveChanges();
@@ -80,6 +86,8 @@ namespace AspRPG.Controllers
             _db.Entry(monster).State = EntityState.Modified;
             if (monster.Hp < 1)
             {
+                if (monster.Weapon != null)
+                    player.Weapon = monster.Weapon;
                 _db.Monsters.Remove(monster);
             }
             _db.SaveChanges();

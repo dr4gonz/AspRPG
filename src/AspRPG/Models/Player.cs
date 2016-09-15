@@ -16,6 +16,7 @@ namespace AspRPG.Models
         public int? CurrentRoomId { get; set; }
         public Location CurrentRoom { get; set; }
         public virtual ApplicationUser User { get; set; }
+        public virtual Weapon Weapon { get; set; }
         public int Hp { get; set; }
         public int DmgMod { get; set; }
 
