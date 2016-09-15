@@ -33,6 +33,21 @@ namespace AspRPG.Controllers
             MovePlayer(player, 1, 0);
             return RedirectToAction("Index", "Game", new { id = player.Id });
         }
+        public IActionResult MoveWest(Player player)
+        {
+            MovePlayer(player, -1, 0);
+            return RedirectToAction("Index", "Game", new { id = player.Id });
+        }
+        public IActionResult MoveNorth(Player player)
+        {
+            MovePlayer(player, 0, -1);
+            return RedirectToAction("Index", "Game", new { id = player.Id });
+        }
+        public IActionResult MoveSouth(Player player)
+        {
+            MovePlayer(player, 0, 1);
+            return RedirectToAction("Index", "Game", new { id = player.Id });
+        }
         private void MovePlayer(Player player, int xMod, int yMod)
         {
             var currentRoom = _db.Locations.FirstOrDefault(l => l.Id == player.CurrentRoomId);
