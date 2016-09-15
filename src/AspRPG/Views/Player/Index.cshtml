@@ -1,0 +1,16 @@
+﻿@model IEnumerable<AspRPG.Models.Player>
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Players</h2>
+<ul>
+   
+    @foreach (var player in Model)
+    {
+        <li>@player.Name</li>
+
+    }
+</ul>

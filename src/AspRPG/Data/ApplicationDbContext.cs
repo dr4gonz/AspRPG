@@ -21,5 +21,6 @@ namespace AspRPG.Data
         }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Map> Maps { get; set; }
+        public DbSet<Player> Players { get; set; }
     }
 }

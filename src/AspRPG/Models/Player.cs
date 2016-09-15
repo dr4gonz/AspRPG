@@ -13,16 +13,15 @@ namespace AspRPG.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public int CurrentRoomId { get; set; }
+        public int? CurrentRoomId { get; set; }
         public Location CurrentRoom { get; set; }
-        public int UserId { get; set; }
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         public Player() { }
-        public Player(string name, int userId)
+        public Player(string name, ApplicationUser user)
         {
             Name = name;
-            UserId = userId;
+            User = user;
         }
     }
 }

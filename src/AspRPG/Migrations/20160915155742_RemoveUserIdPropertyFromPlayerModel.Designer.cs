@@ -8,9 +8,10 @@ using AspRPG.Data;
 namespace AspRPG.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160915155742_RemoveUserIdPropertyFromPlayerModel")]
+    partial class RemoveUserIdPropertyFromPlayerModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
@@ -114,7 +115,7 @@ namespace AspRPG.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CurrentRoomId");
+                    b.Property<int>("CurrentRoomId");
 
                     b.Property<string>("Name");
 
@@ -248,7 +249,8 @@ namespace AspRPG.Migrations
                 {
                     b.HasOne("AspRPG.Models.Location", "CurrentRoom")
                         .WithMany()
-                        .HasForeignKey("CurrentRoomId");
+                        .HasForeignKey("CurrentRoomId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("AspRPG.Models.ApplicationUser", "User")
                         .WithMany("Players")
