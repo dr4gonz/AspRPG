@@ -23,10 +23,21 @@ namespace AspRPG.Models
         public Monster() { }
         public Monster(int locationId, string description)
         {
+            if(description == "Dragon")
+            {
+                LocationId = locationId;
+                Description = description;
+                Hp = 100;
+                DmgMod = 20;
+            }
+            else
+            {
             LocationId = locationId;
             Description = description;
             Hp = 10;
             DmgMod = 1;
+
+            }
         }
     }
 }

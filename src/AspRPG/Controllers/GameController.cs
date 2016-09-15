@@ -68,6 +68,14 @@ namespace AspRPG.Controllers
             var monster = _db.Monsters.FirstOrDefault(m => m.Id == int.Parse(Request.Form["MonsterId"]));
             player.Hp -= monster.DmgMod;
             monster.Hp -= player.DmgMod;
+            if (player.Hp <= 0)
+            {
+                _db.Players.Remove(player);
+                _db.SaveChanges();
+                return RedirectToAction("Dead", "Game", new { name = player.Name });
+            }
+            else
+            {
             _db.Entry(player).State = EntityState.Modified;
             _db.Entry(monster).State = EntityState.Modified;
             if (monster.Hp < 1)
@@ -76,6 +84,12 @@ namespace AspRPG.Controllers
             }
             _db.SaveChanges();
             return RedirectToAction("Index", "Game", new { id = player.Id });
+            }
+        }
+        public IActionResult Dead(string name)
+        {
+            ViewBag.Name = name;
+            return View();
         }
     }
 }
