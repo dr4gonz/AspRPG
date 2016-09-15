@@ -30,20 +30,19 @@ namespace AspRPG.Controllers
         }
         public IActionResult MoveEast(Player player)
         {
+            MovePlayer(player, 1, 0);
+            return RedirectToAction("Index", "Game", new { id = player.Id });
+        }
+        private void MovePlayer(Player player, int xMod, int yMod)
+        {
             var currentRoom = _db.Locations.FirstOrDefault(l => l.Id == player.CurrentRoomId);
-            var adjoiningLocation = GetAdjoining(currentRoom, 1, 0);
+            var adjoiningLocation = _db.Locations
+                .Where(l => l.X == (currentRoom.X + xMod))
+                .Where(l => l.Y == (currentRoom.Y + yMod))
+                .FirstOrDefault(l => l.MapId == currentRoom.MapId);
             player.CurrentRoomId = adjoiningLocation.Id;
             _db.Entry(player).State = EntityState.Modified;
             _db.SaveChanges();
-            return RedirectToAction("Index", "Game", new { id = player.Id });
-        }
-        private Location GetAdjoining(Location location, int xMod, int yMod)
-        {
-            var adjoiningLocation = _db.Locations
-                .Where(l => l.X == (location.X + xMod))
-                .Where(l => l.Y == (location.Y + yMod))
-                .FirstOrDefault(l => l.MapId == location.MapId);
-            return adjoiningLocation;
         }
     }
 }
