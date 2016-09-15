@@ -4,9 +4,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@Model.Name
+@Model.Name | Level: @Model.Level | Exp: @Model.Exp | DmgMod: @Model.DmgMod | Current Hp: @Model.Hp
+ 
 <br />
-Current Room id: @Model.CurrentRoomId | x: @Model.CurrentRoom.X | y: @Model.CurrentRoom.Y | Current Hp: @Model.Hp
+@if (Model.Weapon != null)
+{
+    <p>Weapon: @Model.Weapon.Description | +@Model.Weapon.DmgMod Damage</p>
+}
+<br />
+Current Room id: @Model.CurrentRoomId | x: @Model.CurrentRoom.X | y: @Model.CurrentRoom.Y 
 @if (Model.CurrentRoom.Monsters.Count > 0)
 {
     <ul>

@@ -179,6 +179,9 @@ namespace AspRPG.Controllers
             player.CurrentRoomId = int.Parse(Request.Form["CurrentRoomId"]);
             player.Hp = 20;
             player.DmgMod = 3;
+ 
+            player.Level = 1;
+            player.Exp = 0;
             _db.Entry(player).State = EntityState.Modified;
             _db.SaveChanges();
 

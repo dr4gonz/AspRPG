@@ -11,7 +11,6 @@ namespace AspRPG.Models
     [Table("Monsters")]
     public class Monster
     {
-        private StringValues stringValues;
 
         [Key]
         public int Id { get; set; }
@@ -21,6 +20,7 @@ namespace AspRPG.Models
         public int LocationId { get; set; }
         public virtual Location Location { get; set; }
         public virtual Weapon Weapon { get; set; }
+        public int Exp { get; set; }
         public Monster() { }
         public Monster(int locationId, string description)
         {
@@ -30,6 +30,7 @@ namespace AspRPG.Models
                 Description = description;
                 Hp = 100;
                 DmgMod = 20;
+                Exp = 1000;
             }
             else
             {
@@ -37,6 +38,7 @@ namespace AspRPG.Models
             Description = description;
             Hp = 10;
             DmgMod = 1;
+            Exp = 5;
 
             }
         }

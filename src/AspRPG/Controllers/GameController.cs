@@ -25,6 +25,7 @@ namespace AspRPG.Controllers
         {
             var player = _db.Players
                 .Include(p => p.CurrentRoom).ThenInclude(cr => cr.Monsters)
+                .Include(p => p.Weapon)
                 .FirstOrDefault(p => p.Id == id);
 
             return View(player);
@@ -76,6 +77,7 @@ namespace AspRPG.Controllers
             monster.Hp -= player.DmgMod;
             if (player.Hp < 1)
             {
+                if (player.Weapon != null) _db.Weapons.Remove(player.Weapon);
                 _db.Players.Remove(player);
                 _db.SaveChanges();
                 return RedirectToAction("Dead", "Game", new { name = player.Name });
@@ -86,8 +88,9 @@ namespace AspRPG.Controllers
             _db.Entry(monster).State = EntityState.Modified;
             if (monster.Hp < 1)
             {
-                if (monster.Weapon != null)
-                    player.Weapon = monster.Weapon;
+                player.Exp += monster.Exp;
+                player.LevelUp();
+                if (monster.Weapon != null && (player.Weapon == null || player.Weapon.DmgMod < monster.Weapon.DmgMod)) player.Weapon = monster.Weapon;
                 _db.Monsters.Remove(monster);
             }
             _db.SaveChanges();
