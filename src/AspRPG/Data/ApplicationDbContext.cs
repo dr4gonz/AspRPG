@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using AspRPG.Models;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AspRPG.Data
 {
@@ -18,6 +19,11 @@ namespace AspRPG.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
         }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Map> Maps { get; set; }

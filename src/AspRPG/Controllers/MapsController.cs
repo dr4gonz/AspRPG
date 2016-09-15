@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AspRPG.Data;
 using AspRPG.Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace AspRPG.Controllers
 {
@@ -154,6 +157,30 @@ namespace AspRPG.Controllers
         private bool MapExists(int id)
         {
             return _db.Maps.Any(e => e.Id == id);
+        }
+
+        //GET
+        [Authorize]
+        public IActionResult Start(int id)
+        {
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var players = _db.Players.Where(p => p.User.Id == userId);
+            var startRoom = _db.Locations
+               .Where(l => l.X == 0)
+               .Where(l => l.Y == 0)
+               .FirstOrDefault(l => l.MapId == id);
+            ViewBag.RoomId = startRoom.Id;
+
+            return View(players);
+        }
+        [HttpPost, Authorize]
+        public IActionResult Start(Player player, FormCollection collection)
+        {
+            player.CurrentRoomId = int.Parse(Request.Form["CurrentRoomId"]);
+            _db.Entry(player).State = EntityState.Modified;
+            _db.SaveChanges();
+
+            return RedirectToAction("Index","Game", new { id = player.Id });
         }
     }
 }

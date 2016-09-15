@@ -1,0 +1,23 @@
+﻿@model IEnumerable<AspRPG.Models.Player>
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Choose your player</h2>
+<ul>
+
+    @foreach (var player in Model)
+    {
+    <li>
+        @using (Html.BeginForm())
+        {
+            @Html.HiddenFor(p => player.Id)
+            <input name="CurrentRoomId" id="CurrentRoomId" value="@ViewBag.RoomId" type="hidden" />
+            @Html.HiddenFor(p => player.Name)
+            <input type="submit" value="@player.Name" />
+        }
+    </li>
+    }
+</ul>

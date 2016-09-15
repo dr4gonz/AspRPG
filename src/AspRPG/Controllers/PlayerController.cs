@@ -23,7 +23,7 @@ namespace AspRPG.Controllers
             _db = context;
         }
         [Authorize]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var players = _db.Players.Where(p => p.User.Id == userId);

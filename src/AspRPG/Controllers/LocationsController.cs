@@ -15,7 +15,6 @@ namespace AspRPG.Controllers
     public class LocationsController : Controller
     {
         private readonly ApplicationDbContext _db;
-        public LocationsController() { }
         public LocationsController(ApplicationDbContext context)
         {
             _db = context;

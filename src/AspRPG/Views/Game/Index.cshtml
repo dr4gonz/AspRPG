@@ -1,0 +1,38 @@
+﻿@model AspRPG.Models.Player
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Model.Name
+<br />
+Current Room id: @Model.CurrentRoomId | x: @Model.CurrentRoom.X | y: @Model.CurrentRoom.Y
+
+@using (Html.BeginForm("MoveEast", "Game"))
+{
+    @Html.HiddenFor(p => Model.Id)
+    @Html.HiddenFor(r => Model.CurrentRoomId)
+    @Html.HiddenFor(p => Model.Name)
+    <input type="submit" value="Go East" />
+}
+@using (Html.BeginForm("MoveWest", "Game"))
+{
+    @Html.HiddenFor(p => Model.Id)
+    @Html.HiddenFor(r => Model.CurrentRoomId)
+    @Html.HiddenFor(p => Model.Name)
+    <input type="submit" value="Go West" />
+}
+@using (Html.BeginForm("MoveNorth", "Game"))
+{
+    @Html.HiddenFor(p => Model.Id)
+    @Html.HiddenFor(r => Model.CurrentRoomId)
+    @Html.HiddenFor(p => Model.Name)
+    <input type="submit" value="Go North" />
+}
+@using (Html.BeginForm("MoveSouth", "Game"))
+{
+    @Html.HiddenFor(p => Model.Id)
+    @Html.HiddenFor(r => Model.CurrentRoomId)
+    @Html.HiddenFor(p => Model.Name)
+    <input type="submit" value="Go South" />
+}
