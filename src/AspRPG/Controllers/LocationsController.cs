@@ -93,13 +93,13 @@ namespace AspRPG.Controllers
             }
             else if (yMod == 1)
             {
-                adjoiningLocation.SouthDoor = true;
-                location.NorthDoor = true;
+                adjoiningLocation.NorthDoor = true;
+                location.SouthDoor = true;
             }
             else if (yMod == -1)
             {
-                adjoiningLocation.NorthDoor = true;
-                location.SouthDoor = true;
+                adjoiningLocation.SouthDoor = true;
+                location.NorthDoor = true;
             }
             _db.Entry(adjoiningLocation).State = EntityState.Modified;
             _db.SaveChanges();

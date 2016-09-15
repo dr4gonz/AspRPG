@@ -7,32 +7,42 @@
 @Model.Name
 <br />
 Current Room id: @Model.CurrentRoomId | x: @Model.CurrentRoom.X | y: @Model.CurrentRoom.Y
-
-@using (Html.BeginForm("MoveEast", "Game"))
-{
-    @Html.HiddenFor(p => Model.Id)
-    @Html.HiddenFor(r => Model.CurrentRoomId)
-    @Html.HiddenFor(p => Model.Name)
-    <input type="submit" value="Go East" />
+@if (Model.CurrentRoom.EastDoor){
+    @using (Html.BeginForm("MoveEast", "Game"))
+    {
+        @Html.HiddenFor(p => Model.Id)
+        @Html.HiddenFor(r => Model.CurrentRoomId)
+        @Html.HiddenFor(p => Model.Name)
+        <input type="submit" value="Go East" />
+    }
 }
-@using (Html.BeginForm("MoveWest", "Game"))
+@if (Model.CurrentRoom.WestDoor)
 {
-    @Html.HiddenFor(p => Model.Id)
-    @Html.HiddenFor(r => Model.CurrentRoomId)
-    @Html.HiddenFor(p => Model.Name)
-    <input type="submit" value="Go West" />
+    @using (Html.BeginForm("MoveWest", "Game"))
+    {
+        @Html.HiddenFor(p => Model.Id)
+        @Html.HiddenFor(r => Model.CurrentRoomId)
+        @Html.HiddenFor(p => Model.Name)
+        <input type="submit" value="Go West" />
+    }
 }
-@using (Html.BeginForm("MoveNorth", "Game"))
+@if (Model.CurrentRoom.NorthDoor)
 {
-    @Html.HiddenFor(p => Model.Id)
-    @Html.HiddenFor(r => Model.CurrentRoomId)
-    @Html.HiddenFor(p => Model.Name)
-    <input type="submit" value="Go North" />
+    @using (Html.BeginForm("MoveNorth", "Game"))
+    {
+        @Html.HiddenFor(p => Model.Id)
+        @Html.HiddenFor(r => Model.CurrentRoomId)
+        @Html.HiddenFor(p => Model.Name)
+        <input type="submit" value="Go North" />
+    }
 }
-@using (Html.BeginForm("MoveSouth", "Game"))
+@if (Model.CurrentRoom.SouthDoor)
 {
-    @Html.HiddenFor(p => Model.Id)
-    @Html.HiddenFor(r => Model.CurrentRoomId)
-    @Html.HiddenFor(p => Model.Name)
-    <input type="submit" value="Go South" />
+    @using (Html.BeginForm("MoveSouth", "Game"))
+    {
+        @Html.HiddenFor(p => Model.Id)
+        @Html.HiddenFor(r => Model.CurrentRoomId)
+        @Html.HiddenFor(p => Model.Name)
+        <input type="submit" value="Go South" />
+    }
 }

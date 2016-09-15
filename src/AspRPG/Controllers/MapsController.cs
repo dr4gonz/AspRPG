@@ -56,7 +56,7 @@ namespace AspRPG.Controllers
         // POST: Maps/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] Map map)
+        public async Task<IActionResult> Create([Bind("Id", "Name")] Map map)
         {
             if (ModelState.IsValid)
             {
